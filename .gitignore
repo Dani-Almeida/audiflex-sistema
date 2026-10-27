@@ -1,0 +1,30 @@
+# Arquivos gerados pelo Maven
+target/
+
+# Variáveis de ambiente e credenciais
+.env
+.env.*
+!.env.example
+*.properties.local
+secrets/
+*.pem
+*.key
+
+# Configurações das IDEs
+.vscode/
+.idea/
+*.iml
+
+# Arquivos temporários
+*.log
+*.tmp
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Dados internos da empresa
+dados-clientes/
+documentos-internos/
+tabelas-precos/
+backups/
