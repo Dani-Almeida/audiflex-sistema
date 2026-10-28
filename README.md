@@ -26,7 +26,7 @@ O projeto está em desenvolvimento e utiliza uma aplicação de console.
 - Cadastro de produtos no banco de dados por meio da classe DAO.
 - Seleção de produtos para o orçamento.
 - Cálculo de área da persiana.
-- Aplicação de percentual de acréscimo.
+- Aplicação de um percentual de acréscimo sobre o subtotal do orçamento, incluindo persianas e adicionais.
 - Inclusão de adicionais, como motor tubular.
 - Inclusão de múltiplos itens no orçamento.
 - Cálculo do valor total.
@@ -40,10 +40,35 @@ O sistema utiliza atualmente uma regra provisória de área mínima cobrada de 1
 
 Os valores utilizados em exemplos e testes são fictícios e não representam tabelas comerciais reais.
 
+## Regra de cálculo do orçamento
+
+O sistema calcula o valor do orçamento seguindo estas etapas:
+
+1. Calcula a área de cada persiana.
+2. Aplica a área mínima cobrada de 1,20 m², quando necessário.
+3. Multiplica a área cobrada pelo preço de tabela do produto.
+4. Soma os valores dos adicionais de cada item.
+5. Calcula o subtotal de todos os itens do orçamento.
+6. Solicita o percentual de acréscimo.
+7. Aplica o percentual informado sobre o subtotal completo.
+
+### Exemplo de cálculo
+
+Valores fictícios:
+
+- Persiana: R$ 750,00
+- Motor tubular: R$ 650,00
+- Segunda persiana: R$ 600,00
+- Subtotal: R$ 2.000,00
+- Acréscimo: 90%
+- Total final: R$ 3.800,00
+
+O percentual pode ser definido no momento da elaboração do orçamento.
+
 ## Próximas melhorias
 
 - Aprimorar as validações de entrada.
-- Implementar testes unitários das regras de negócio.
+- Ampliar a cobertura dos testes unitários com JUnit 5.
 - Revisar as regras de cálculo por modelo.
 - Melhorar o tratamento de erros.
 - Ampliar as operações de cadastro e consulta.

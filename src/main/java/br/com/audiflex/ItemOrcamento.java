@@ -7,13 +7,12 @@ public class ItemOrcamento {
 
     private double largura;
     private double altura;
-    private double percentualAcrescimo;
     private String ambiente;
     private Produto produto;
     private List<Adicional> adicionais;
     
 
-    public ItemOrcamento (double largura, double altura, double percentualAcrescimo, String ambiente, Produto produto){
+    public ItemOrcamento (double largura, double altura, String ambiente, Produto produto){
 
         if (largura <= 0) {
             throw new IllegalArgumentException("A largura deve ser maior que zero.");
@@ -25,7 +24,6 @@ public class ItemOrcamento {
 
         this.largura = largura;
         this.altura = altura;
-        this.percentualAcrescimo = percentualAcrescimo;
         this.ambiente = ambiente;
         this.produto = produto;
         this.adicionais = new ArrayList<>();
@@ -51,13 +49,12 @@ public class ItemOrcamento {
         return calcularAreaCobrada() * produto.getPrecoTabela();
     }
 
-    public double calcularPrecoVendaM2() {
-        return produto.getPrecoTabela() + (produto.getPrecoTabela() * percentualAcrescimo / 100);
+    public double getPrecoTabela() {
+        return produto.getPrecoTabela();
     }
 
     public double calcularValorItem() {
-        return (calcularAreaCobrada() * calcularPrecoVendaM2()) 
-                + calcularTotalAdicionais();
+        return calcularValorTabela() + calcularTotalAdicionais();
     }
 
     public void adicionarAdicional(Adicional adicional){

@@ -27,6 +27,14 @@ public class Orcamento {
         return total;
     }
 
+    public double calcularTotalComAcrescimo(double percentual) {
+        double subtotal = calcularTotal();
+
+        double valorAcrescimo = subtotal * percentual / 100;
+
+        return subtotal + valorAcrescimo;
+    }
+
     public void removerItem(ItemOrcamento item) {
         this.itens.remove(item);
     }

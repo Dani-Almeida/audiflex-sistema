@@ -58,86 +58,107 @@ public class App {
         while (continuar.equalsIgnoreCase("S")) {
 
             System.out.println("Digite o ID do produto desejado: ");
-        long idProdutoEscolhido = scanner.nextLong();
-        scanner.nextLine();
+            long idProdutoEscolhido = scanner.nextLong();
+            scanner.nextLine();
 
-        Produto produtoEscolhido = null;
+            Produto produtoEscolhido = null;
 
-        for (Produto produto : produtos) {
-            if (produto.getId() == idProdutoEscolhido) {
-                produtoEscolhido = produto;
-                break;
-            }
-        }
-
-        if (produtoEscolhido == null) {
-            System.out.println("Produto não encontrado.");
-            scanner.close();
-            return;
-        }
-
-        System.out.println("Produto selecionado: " + produtoEscolhido.getModelo());
-
-        // LARGURA
-        double largura = 0;
-
-        while(largura <= 0){
-            System.out.println("Digite a largura em metros (ex: 1,50): ");
-
-            try { 
-                largura = scanner.nextDouble();
-
-                if (largura <= 0) {
-                     System.out.println("A largura deve ser maior que zero.");
+            for (Produto produto : produtos) {
+                if (produto.getId() == idProdutoEscolhido) {
+                    produtoEscolhido = produto;
+                    break;
                 }
-
-            } catch (InputMismatchException e) {
-                System.out.println("Digite um número válido.");
-                scanner.nextLine();
             }
-        }
 
+            if (produtoEscolhido == null) {
+                System.out.println("Produto não encontrado.");
+                scanner.close();
+                return;
+            }
 
-        // ALTURA
-        double altura = 0;
+            System.out.println("Produto selecionado: " + produtoEscolhido.getModelo());
 
-        while(altura <= 0){
-            System.out.println("Digite a altura em metros (ex: 2,00): ");
+            // LARGURA
+            double largura = 0;
 
-            try { 
-                altura = scanner.nextDouble();
+            while(largura <= 0){
+                System.out.println("Digite a largura em metros (ex: 1,50): ");
 
-                if (altura <= 0) {
-                    System.out.println("A altura deve ser maior que zero.");
+                try { 
+                    largura = scanner.nextDouble();
+
+                    if (largura <= 0) {
+                        System.out.println("A largura deve ser maior que zero.");
+                    }
+
+                } catch (InputMismatchException e) {
+                    System.out.println("Digite um número válido.");
+                    scanner.nextLine();
                 }
-
-            } catch (InputMismatchException e) {
-                System.out.println("Digite um número válido.");
-                scanner.nextLine();
             }
-        }
 
-        scanner.nextLine();
 
-        // AMBIENTE
-        System.out.println("Digite o ambiente: ");
-        String ambiente = scanner.nextLine();
+            // ALTURA
+            double altura = 0;
 
-        // PERCENTUAL DE ACRÉSCIMO
-        double percentualAcrescimo = 0;
-        boolean percentualValido = false;
+            while(altura <= 0){
+                System.out.println("Digite a altura em metros (ex: 2,00): ");
 
-        while (!percentualValido) {
-                System.out.println("Digite o percentual de acréscimo: ");
+                try { 
+                    altura = scanner.nextDouble();
+
+                    if (altura <= 0) {
+                        System.out.println("A altura deve ser maior que zero.");
+                    }
+
+                } catch (InputMismatchException e) {
+                    System.out.println("Digite um número válido.");
+                    scanner.nextLine();
+                }
+            }
+
+            scanner.nextLine();
+
+            // AMBIENTE
+            System.out.println("Digite o ambiente: ");
+            String ambiente = scanner.nextLine();
+        
+
+            // CRIAÇÃO DO ITEM
+            ItemOrcamento item = new ItemOrcamento(largura, altura, ambiente, produtoEscolhido);
+
+            System.out.println("Deseja adicionar um motor tubular? (S/N)");
+            String resposta = scanner.nextLine();
+
+            if (resposta.equalsIgnoreCase("S")) {
+                Adicional motor = new Adicional("Motor tubular", 650);
+                item.adicionarAdicional(motor);
+            }
+
+            // ADICIONAR AO ORÇAMENTO
+            orcamento.adicionarItem(item);
+
+            System.out.println("Item adicionado ao orçamento.");
+
+            // PERGUNTAR SE DESEJA CONTINUAR
+            System.out.println("Deseja adicionar outra persiana? (S/N)");
+            continuar =  scanner.nextLine();
+
+        }   // FIM DO WHILE PRINCIPAL
+         
+        double percentualFinal = 0;
+        boolean percentualFinalValido = false;
+
+        while (!percentualFinalValido) {
+            System.out.println("Digite o percentual de acréscimo do orçamento (ex.: 90):");
 
             try {
-                percentualAcrescimo = scanner.nextDouble();
+                percentualFinal = scanner.nextDouble();
 
-                if (percentualAcrescimo < 0) {
-                    System.out.println("O percentual não pode ser negativo.");
-
+                if (!Double.isFinite(percentualFinal) || percentualFinal < 0) {
+                    System.out.println("Digite um percentual válido, maior ou igual a zero.");
                 } else {
-                    percentualValido = true;
+                    percentualFinalValido = true;
                 }
 
             } catch (InputMismatchException e) {
@@ -145,32 +166,9 @@ public class App {
                 scanner.nextLine();
             }
         }
-        
+
         scanner.nextLine();
 
-        // CRIAÇÃO DO ITEM
-        ItemOrcamento item = new ItemOrcamento(largura, altura, percentualAcrescimo, ambiente, produtoEscolhido);
-
-        System.out.println("Deseja adicionar um motor tubular? (S/N)");
-        String resposta = scanner.nextLine();
-
-        if (resposta.equalsIgnoreCase("S")) {
-            Adicional motor = new Adicional("Motor tubular", 650);
-            item.adicionarAdicional(motor);
-}
-
-        // ADICIONAR AO ORÇAMENTO
-        orcamento.adicionarItem(item);
-
-        System.out.println("Item adicionado ao orçamento.");
-
-        // PERGUNTAR SE DESEJA CONTINUAR
-        System.out.println("Deseja adicionar outra persiana? (S/N)");
-        continuar =  scanner.nextLine();
-        
-        } // FIM DO WHILE PRINCIPAL
-         
-       
         System.out.println("\n--- RESUMO DO ORÇAMENTO ---");
         System.out.println("Cliente: " + orcamento.getCliente().getNome());
       
@@ -181,7 +179,7 @@ public class App {
             System.out.println("Ambiente: " + item.getAmbiente());
             System.out.println("Área real: " + item.calcularAreaReal());
             System.out.println("Área cobrada: " + item.calcularAreaCobrada());
-            System.out.println("Preço de venda/m²: " + item.calcularPrecoVendaM2());
+            System.out.println("Preço da tabela/m²: " + item.getPrecoTabela());
             
            
 
@@ -194,7 +192,11 @@ public class App {
         }
 
         System.out.println("------------------------");
-        System.out.println("Total do orçamento: R$ " + orcamento.calcularTotal());
+        System.out.println("Subtotal: R$ " + orcamento.calcularTotal());
+
+        System.out.println("Percentual de acréscimo: " + percentualFinal + "%");
+
+        System.out.println("Total final do orçamento: R$ " + orcamento.calcularTotalComAcrescimo(percentualFinal));
          
         System.out.println("\n--- CLIENTE CADASTRADO ---");
         System.out.println("Nome: "+ cliente.getNome());
@@ -205,7 +207,6 @@ public class App {
         scanner.close();
     }
 
-    
     
 }    
 
